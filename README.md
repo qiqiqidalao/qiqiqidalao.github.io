@@ -16,9 +16,9 @@
 
 8. 当在Unity中导入一个dll文件时报错时，在项目面板中点击dll文件可以看到报错信息，可能是支持的.NET版本不同。在Unity中的File->Build Settings->Player Settings->Other Settings中的Configuration下的Scripting Runtime Version中修改成.NET 4.x 即可。当然也可以在VS中修改类库的.NET版本，在右键选择属性 -> 应用程序，将目标框架改为 .NET Framework 3.5或以下，然后重新生成dll导入。
 
-   ![Unity中修改](D:\MarkDown/images/%E6%B8%B8%E6%88%8F%E8%AE%BE%E8%AE%A1%E3%80%81%E5%8E%9F%E5%9E%8B%E4%B8%8E%E5%BC%80%E5%8F%91%E3%80%81%E5%B0%8F%E7%9F%A5%E8%AF%86%E7%82%B9img1.png)
+   ![Unity中修改](https://raw.githubusercontent.com/qiqiqidalao/qiqiqidalao.github.io/master/images/img1.png)
 
-   ![VS中修改](D:\MarkDown/images/%E6%B8%B8%E6%88%8F%E8%AE%BE%E8%AE%A1%E3%80%81%E5%8E%9F%E5%9E%8B%E4%B8%8E%E5%BC%80%E5%8F%91%E3%80%81%E5%B0%8F%E7%9F%A5%E8%AF%86%E7%82%B9img2.png)
+   ![VS中修改](https://raw.githubusercontent.com/qiqiqidalao/qiqiqidalao.github.io/master/images/img2.png)
 
 9. 在Unity中使用Protobuf实现数据转换：
 
@@ -38,13 +38,13 @@
 
    1. 编写一个.proto文件(syntax是你下载的proto语法版本,有proto2和proto3，package是包名，在Unity中引用的时候就是该名称，message相当于一个类，1，2，3不代表值，代表参数标签，repeated可以理解为数组)
 
-      ![person.proto](D:\MarkDown/images/%E6%B8%B8%E6%88%8F%E8%AE%BE%E8%AE%A1%E3%80%81%E5%8E%9F%E5%9E%8B%E4%B8%8E%E5%BC%80%E5%8F%91%E3%80%81%E5%B0%8F%E7%9F%A5%E8%AF%86%E7%82%B9img3.png)
+      ![person.proto](https://raw.githubusercontent.com/qiqiqidalao/qiqiqidalao.github.io/master/images/img3.png)
 
    2. 在cmd窗口下将刚才的.proto文件编译成.CS文件
 
-      ![命令台截图](D:\MarkDown/images/%E6%B8%B8%E6%88%8F%E8%AE%BE%E8%AE%A1%E3%80%81%E5%8E%9F%E5%9E%8B%E4%B8%8E%E5%BC%80%E5%8F%91%E3%80%81%E5%B0%8F%E7%9F%A5%E8%AF%86%E7%82%B9img4.png)
+      ![命令台截图](https://raw.githubusercontent.com/qiqiqidalao/qiqiqidalao.github.io/master/images/img4.png)
 
-      ![执行命令之后](D:\MarkDown/images/%E6%B8%B8%E6%88%8F%E8%AE%BE%E8%AE%A1%E3%80%81%E5%8E%9F%E5%9E%8B%E4%B8%8E%E5%BC%80%E5%8F%91%E3%80%81%E5%B0%8F%E7%9F%A5%E8%AF%86%E7%82%B9img5.png)
+      ![执行命令之后](https://raw.githubusercontent.com/qiqiqidalao/qiqiqidalao.github.io/master/images/img5.png)
 
       --proto_path 指定要编译的.proto文件路径 （相对路径）
       --csharp_out 输出cs文件路径（相对路径）
@@ -53,9 +53,9 @@
 
    3. 将上面生成的Google.Protobuf.dll 和 Person.cs文件导入到Unity中并测试
 
-      ![Unity测试脚本](D:\MarkDown/images/%E6%B8%B8%E6%88%8F%E8%AE%BE%E8%AE%A1%E3%80%81%E5%8E%9F%E5%9E%8B%E4%B8%8E%E5%BC%80%E5%8F%91%E3%80%81%E5%B0%8F%E7%9F%A5%E8%AF%86%E7%82%B9img6.png)
+      ![Unity测试脚本](https://raw.githubusercontent.com/qiqiqidalao/qiqiqidalao.github.io/master/images/img6.png)
 
-      ![运行结果](D:\MarkDown/images/%E6%B8%B8%E6%88%8F%E8%AE%BE%E8%AE%A1%E3%80%81%E5%8E%9F%E5%9E%8B%E4%B8%8E%E5%BC%80%E5%8F%91%E3%80%81%E5%B0%8F%E7%9F%A5%E8%AF%86%E7%82%B9img7.png)
+      ![运行结果](https://raw.githubusercontent.com/qiqiqidalao/qiqiqidalao.github.io/master/images/img7.png)
 
    [为什么要使用Protobuf见腾讯游戏学院]: https://gameinstitute.qq.com/course/detail/10091
 
