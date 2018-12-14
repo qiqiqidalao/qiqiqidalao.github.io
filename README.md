@@ -299,6 +299,10 @@
     			Pet = ownerAndPet.petName
     		}
     	);
+    //复合LINQ子句实现SelectMany()效果
+    var query = from p in petOwners
+                from pets in p.Pets
+                select new { p.Name, pets };
     //执行的结果为
     //{ Owner = Higa, Pet = Scruffy }
     //{ Owner = Higa, Pet = Sam }
