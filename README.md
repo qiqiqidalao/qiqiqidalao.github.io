@@ -163,3 +163,91 @@
 30. C#中的Interface中接口声明默认是public的，所以不能对接口中的抽象方法或属性使用public关键字，同时接口中不能声明**字段**但是可以声明**属性**，接口成员不能有 new、static、abstract、override、virtual 修饰符。有一点要注意，当一个接口实现一个接口，这2个接口中有相同的方法时，可用 new 关键字隐藏父接口中的方法。**接口中只能包含方法、属性、事件和索引的组合**。
 
 31. 索引器是一种语法上的遍历，最常见以类型实现，其主要目的是封装内部集合或数组。例如：假设有一个TempRecord表示Farenheit温度的类，在24小时内以10个不同的时间记录。该类包含一个用于存储温度值temps的类型数组float[]。通过在此类中实现索引器，客户端可以访问TempRecord实例中的温度```float temp = tr[4]```而不是```float temp = tr.temps[4]```。索引器表示法不仅简化了客户端应用程序的语法; 它还使该类及其目的更直观，供其他开发人员理解。**要在类或结构上声明索引器，要使用this关键字：```public int this[index]{   //get and set 访问器}```
+
+32. C#中的委托和事件，事件可以理解为类似声明一个进行了封装的委托类型的变量，但在类的内部，不管你用public修饰event还是用protected修饰event，它总是private
+
+    ```C#
+     	//委托类型
+        public delegate void TestDelegate();
+        delegate void CustomizeEvent(NotImpEventArgsClass e);
+    	//加泛型则不会在使用系统的EvnetHandler<TEventArgs>
+        public delegate void EventHandler();
+    
+        class Program
+        {
+            //委托变量
+            public static TestDelegate testDelegate;
+            //自定义事件
+            public static event TestDelegate TestEvent;
+            public static event CustomizeEvent ce;
+            public static event EventHandler ee;
+            //符合.NET FrameWork编码规范的事件，这里的EventArgs可以是任意其它类型
+            //这里的泛型类型作用就是存储事件要处理的数据类
+            //系统的EventHandler<TEventArgs>定义为： 
+            //public delegate void EventHandler<TEventArgs>(object sender, TEventArgs e);
+            //也可以不使用系统的EventHandler<TEventArgs>，可以自己写一个EventHandler<T>，但是在当前类中就会使用自己写的EventHandler<T>，如果没有写成EventHandler<T>而是EventHandler则不会影响。
+            private static EventHandler<EventArgs> newEvent;
+            //写成属性类似的方式就不能使用NewEvent(sender,e)这种，只能使用它对应的字段newEvent
+            public static event EventHandler<EventArgs> NewEvent
+            {
+                add { newEvent += value; }
+                remove { newEvent -= value; }
+            }
+            public static event EventHandler<EventArgs> Another;
+    
+            static void Main(string[] args)
+            {
+                testDelegate += Function;
+                testDelegate();
+    
+                TestEvent += Function1;
+                TestEvent();
+    
+                NewEvent += Function2;
+                Another += Function2;
+    
+                //.NET FrameWork自带的泛型委托EventHandler<TEventArgs>要求传递两个参数
+                //第一个参数为object类型,第二个参数为泛型TEventArgs
+                newEvent(newEvent, new TestEventArgs());
+                Another(Another.GetType(), new EventArgs());
+    
+                ce += Function3;
+                ce(new NotImpEventArgsClass());
+    
+                ee += Function1;
+                
+                Console.ReadLine();
+            }
+    
+            public static void Function()
+            {
+                Console.WriteLine("Function 自定义委托");
+            }
+    
+            public static void Function1()
+            {
+                Console.WriteLine("Function1 使用自定义事件");
+            }
+    
+            public static void Function2(object sender,EventArgs e)
+            {
+                Console.WriteLine("Function2 使用.NET规范的事件");
+            }
+    
+            public static void Function3(NotImpEventArgsClass customize)
+            {
+                Console.WriteLine("Function3 使用自定义事件");
+            }
+        }
+    
+        class NotImpEventArgsClass
+        {
+    
+        }
+    
+        class TestEventArgs : EventArgs
+        {
+    
+        }
+    ```
+
