@@ -251,3 +251,6 @@
         }
     ```
 
+33. 在Linux上装好```redis```之后要去```redis.conf```中修改```daemonize``` 为```yes```(在vim编辑器中敲/进入查询模式，敲n查找下一个，N查找上一个)，```redis server```就可以后台启动了，启动```redis```服务可以在```redis-server```可执行文件目录下(一般在```src```目录下)输入```./redis-server ../redis.conf```(要使用配置文件启动)，启动之后就可以使用```./redis-cli```进入了，使用```./redis-cli SHUTDOWN```关闭```redis-server```
+
+    ![运行结果](https://raw.githubusercontent.com/qiqiqidalao/qiqiqidalao.github.io/master/images/img8.png)
