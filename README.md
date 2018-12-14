@@ -254,3 +254,22 @@
 33. 在Linux上装好```redis```之后要去```redis.conf```中修改```daemonize``` 为```yes```(在vim编辑器中敲/进入查询模式，敲n查找下一个，N查找上一个)，```redis server```就可以后台启动了，启动```redis```服务可以在```redis-server```可执行文件目录下(一般在```src```目录下)输入```./redis-server ../redis.conf```(要使用配置文件启动)，启动之后就可以使用```./redis-cli```进入了，使用```./redis-cli SHUTDOWN```关闭```redis-server```
 
     ![运行结果](https://raw.githubusercontent.com/qiqiqidalao/qiqiqidalao.github.io/master/images/img8.png)
+
+34. 不是所有查询都可以用LINQ查询语法完成，也不是所有的扩展方法都映射到LINQ查询子句上。高级查询要使用扩展方法。不能使用LINQ查询的一个例子是Where()方法的重载，在Where方法的重载中，可以传递第二个参数——索引。该索引是被执行查询的集合的索引。可以在表达式中使用这个索引，执行基于索引的计算
+
+    ```C#
+    List<Person> people = new List<Person> {
+    	new Person { Name = "张三", Age = 29 },
+    	new Person { Name = "李四", Age = 39 },
+    	new Person { Name = "王五", Age = 22 },
+    	new Person { Name = "王二", Age = 29 }
+    };
+    //两种写法的效果一样
+    var useLinq = from p in people
+    	where p.Age < 30
+    	select p.Name;
+    var useExtendMethod = people.Where(p => p.Age < 30).Select(p => p.Name);
+    //Where的重载方法，筛选年龄小于30且索引为偶数的人，索引index是people集合中的索引，不是筛选后的索引
+    var res = people.Where((p, index) => p.Age < 30 && index % 2 == 0).Select(p => p.Name);
+    ```
+
