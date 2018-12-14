@@ -271,5 +271,35 @@
     var useExtendMethod = people.Where(p => p.Age < 30).Select(p => p.Name);
     //Where的重载方法，筛选年龄小于30且索引为偶数的人，索引index是people集合中的索引，不是筛选后的索引
     var res = people.Where((p, index) => p.Age < 30 && index % 2 == 0).Select(p => p.Name);
+    //基于类型筛选
+    object[] data = { "one", 1, 2, "flour", 'c' };
+    var query = data.OfType<int>();
+    //SelectMany例子
+    PetOwner[] petOwners = {
+    	new PetOwner { Name="Higa",Pets = new List<string>{ "Scruffy", "Sam" } },
+    	new PetOwner { Name="Ashkenazi",Pets = new List<string>{ "Walker", "Sugar" } },
+    	new PetOwner { Name="Price",Pets = new List<string>{ "Scratches", "Diesel" } },
+    	new PetOwner { Name="Hines",Pets = new List<string>{ "Dusty" } }
+    };
+    //SelectMany扩展方法：public static IEnumerable<TResult> SelectMany<TSource, TCollection, TResult>(this IEnumerable<TSource> source, Func<TSource, IEnumerable<TCollection>> collectionSelector, Func<TSource, TCollection, TResult> resultSelector);
+    //第一个参数就是传递进去的集合(写的时候不用写出来，直接从第二个参数开始)，第二个是对该集合要进行操作的转换函数形成中间集合，第三个是对中间集合的每个元素的转换函数。
+    //根据扩展方法的定义，第二个参数的方法一定要传TSource类型，并且会返回一个集合类型，第三个参数一定要传递两个参数的方法，并且返回一个转换后的集合。
+    //这里也可以不使用lambda表达式，可以传递方法 只要符合委托的签名即可(未测试)
+    var query = petOwners
+    	.SelectMany(petOwner => petOwner.Pets, (petOwner, petName) => new { petOwner, petName })
+    	.Select(ownerAndPet => new
+    		{
+    			Owner = ownerAndPet.petOwner.Name,
+    			Pet = ownerAndPet.petName
+    		}
+    	);
+    //执行的结果为
+    //{ Owner = Higa, Pet = Scruffy }
+    //{ Owner = Higa, Pet = Sam }
+    //{ Owner = Ashkenazi, Pet = Walker }
+    //{ Owner = Ashkenazi, Pet = Sugar }
+    //{ Owner = Price, Pet = Scratches }
+    //{ Owner = Price, Pet = Diesel }
+    //{ Owner = Hines, Pet = Dusty }
     ```
 
