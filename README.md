@@ -271,9 +271,11 @@
     var useExtendMethod = people.Where(p => p.Age < 30).Select(p => p.Name);
     //Where的重载方法，筛选年龄小于30且索引为偶数的人，索引index是people集合中的索引，不是筛选后的索引
     var res = people.Where((p, index) => p.Age < 30 && index % 2 == 0).Select(p => p.Name);
+    
     //基于类型筛选
     object[] data = { "one", 1, 2, "flour", 'c' };
     var query = data.OfType<int>();
+    
     //SelectMany例子
     PetOwner[] petOwners = {
     	new PetOwner { Name="Higa",Pets = new List<string>{ "Scruffy", "Sam" } },
@@ -311,5 +313,37 @@
     //{ Owner = Price, Pet = Scratches }
     //{ Owner = Price, Pet = Diesel }
     //{ Owner = Hines, Pet = Dusty }
+    
+    //GroupBy分组
+    List<int> numbers = new List<int> { 1, 2, 3, 2, 2, 3, 1, 3, 2, 4, 2, 3, 4, 5, 1, 2 };
+    //LINQ方式
+    var query = from i in numbers
+                group i by i into g
+                select g;
+    //使用GroupBy扩展方法
+    query = numbers.GroupBy(i => i);
+    //使用ToLookUp扩展方法
+    query = numbers.ToLookup(i => i);
+    //GroupBy和ToLookup效果类似，但是GroupBy会延迟执行
+    //当你遍历集合的时候,下一个要出现的项目可能会或者可能不会被加载
+    //它实际上是在第一项被使用的时候创建分组,而不是在 GroupBy（） 第一次被调用时
+    //使用ToLookUp时，LookUp集合是不可改变的，一旦创建就不能删除或添加元素
+    List<int> numbers = new List<int> { 1, 2, 3, 2, 2, 3, 1, 3, 2, 4, 2, 3, 4, 5, 1, 2 };
+    var query = numbers.GroupBy(i => i);
+    //var query = numbers.ToLookup(i => i);
+    numbers.RemoveAll(i => i == 1);
+    foreach (var i in query)
+    	Console.WriteLine("i.Key: " + i.Key + " i.Count(): " + i.Count());
+    //使用GroupBy结果
+    //i.Key: 2 i.Count(): 6
+    //i.Key: 3 i.Count(): 4
+    //i.Key: 4 i.Count(): 2
+    //i.Key: 5 i.Count(): 1
+    //使用ToLookUp结果
+    //i.Key: 1 i.Count(): 3
+    //i.Key: 2 i.Count(): 6
+    //i.Key: 3 i.Count(): 4
+    //i.Key: 4 i.Count(): 2
+    //i.Key: 5 i.Count(): 1
     ```
 
