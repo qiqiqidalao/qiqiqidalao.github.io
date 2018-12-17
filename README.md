@@ -420,7 +420,10 @@
 42. 使用```SQLyog```可视化工具连接```MySQL```时出现```plugin caching sha2 password could not be loaded```问题(不局限于用```SQLyog```连接，其它可视化工具可能也有这个问题)，原因是从mysql8开始使用的加密方式为：```caching-sha2-password```，而可视化工具能识别的加密方式还是原来的:```mysql_native_password```，因此需要把mysql8的root用户密码加密方式改为```mysql_native_password```
 
     ```sql
-    ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY '1234'; #更新一下用户的密码为1234,只会改变root用户的密码加密方式
-    FLUSH PRIVILEGES; #刷新权限
+    #更新root用户的密码为1234
+    #只会改变root用户的密码加密方式，其他用户的密码加密方式不影响
+    ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY '1234';
+    #刷新权限
+    FLUSH PRIVILEGES;
     ```
 
