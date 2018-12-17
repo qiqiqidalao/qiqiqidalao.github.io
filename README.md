@@ -364,3 +364,53 @@
 
 36. 可以使用```await```关键字来调用返回任务的异步方法，使用```await```关键字需要有用```async```修饰符声明的方法，在异步方法完成前，该方法内的其他代码不会继续执行。但是，启动调用异步方法的方法(即用```async```)修饰的方法的线程可以被重用，该线程没有被阻塞。
 
+37. ```async```修饰符只能用于返回Task或void的方法，它不能用于程序的入口点，即Main方法不能使用```async```修饰符，await只能用于返回Task的方法。
+
+38. Task类的```ContinueWith```方法定义了任务完成后就调用的代码。指派给```ContinueWith```方法的委托接收将已完成的任务作为参数传入，使用Result属性可以访问任务返回的结果
+
+    ```C#
+    static string Greeting(string name)
+    {
+    	Thread.Sleep(3000);
+    	return string.Format("Hello, {0}", name);
+    }
+    
+    static Task<string> GreetingAsync(string name)
+    {
+    	return Task.Run<string>(() => { return Greeting(name); });
+    }
+    
+    private async static void CallerWithAsync()
+    {
+    	string result = await GreetingAsync("Stephanie");
+    	Console.WriteLine(result);
+    }
+    //该方法没有指定async关键字，所以调用ContinueWith时并不会等待，该方法还是会继续执行
+    //若要等待执行完在往下执行，该方法要加async关键字，并在ContinueWith之前使用await关键字
+    private static void CallerWithContinuationTask()
+    {
+    	Task<string> t1 = GreetingAsync("Stephanie");
+    	t1.ContinueWith(t =>
+    	{
+    		string result = t.Result;
+    		Console.WriteLine(result);
+        });
+        Console.WriteLine(1);
+    }
+    ```
+
+39. Task组合器接受多个Task对象作为参数，并返回一个Task。如果多个Task对象的类型相同，则返回同一类型值，再加上await关键字，则会进一步获得结果数组(比如参数都是```Task<string>```，不用await则返回类型是```Task<string>```，使用await关键字之后则是```string[]```类型)，如果多个Task对象的类型不相同，也可以返回一个Task，但用await会返回void类型。
+
+    ```C#
+    private static async void UseTaskWhenAll()
+    {
+    	Task<string> t1 = GreetingAsync("Stephanie");
+    	Task<string> t2 = GreetingAsync("Matthias");
+    	Task t3 = Task.Run(() => Console.Write("3"));
+    	await Task.WhenAll(t1, t2, t3);//等待任务返回 无值
+    	Task t4 = Task.WhenAll(t1, t2, t3);//返回一个Task
+    	string[] res = await Task.WhenAll(t1, t2);//返回一个string[]
+    }
+    ```
+
+
