@@ -347,3 +347,19 @@
     //i.Key: 5 i.Count(): 1
     ```
 
+35. 与```var```关键字不同，定义为```dynamic```的对象可以在运行期间改变其类型。注意在使用```var```关键字时，对象类型的确定会延迟。类型一旦确定，就不能改变。动态对象的类型可以改变，而且可以改变多次，这不同于把对象的类型强制转换为另一种类型。在强制转换对象的类型时，是用另一种兼容的类型创建一个新对象。dynamic类型有两个限制，动态对象不支持扩展方法，匿名函数(lambda表达式)也不能用作动态方法调用的参数，因此LINQ不能用于动态对象。
+
+    ```C#
+    dynamic a = 5;
+    Console.WriteLine(a.GetType());
+    a = "Hello";
+    Console.WriteLine(a.GetType());
+    a = new Student { Name = "小王", Id = 5 };
+    Console.WriteLine(a.Name);
+    //输出结果
+    //System.Int32
+    //System.String
+    //小王
+    ```
+
+
