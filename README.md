@@ -427,3 +427,14 @@
     FLUSH PRIVILEGES;
     ```
 
+43. C#中的数组实际上都是对象，它们都是```System.Array```的实例。因此数组存储在堆上。可以使用```stackalloc```，命令指示.NET运行库在栈上分配一定的内存，在使用```stackalloc```命令时，需要为它提供两条信息：要存储的数据类型、需要存储的数据项数。```stackalloc```后面紧跟要存储的数据类型名(该数据类型必须是一个值类型)
+
+    ```C#
+    //不能是decimal[] pDecimals = stackalloc decimal[10];
+    //因为stackalloc总是返回分配数据类型的指针
+    //但是这种方式分配的数组，如果使用pDecimals[20] = 2.0;编译器不会报错
+    decimal* pDecimals = stackalloc decimal[10];
+    ```
+
+44. 使用``` MySqlTransaction tran = conn.BeginTransaction();```之后就开始事务了，然后为SqlCommand对象设置Transaction对象，接着事务处理，最后提交或者回滚，如果使用了BeginTransaaction之后并没有提交，则数据库中并不会更新。
+
