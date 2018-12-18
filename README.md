@@ -436,5 +436,5 @@
     decimal* pDecimals = stackalloc decimal[10];
     ```
 
-44. 使用``` MySqlTransaction tran = conn.BeginTransaction();```之后就开始事务了，然后为SqlCommand对象设置Transaction对象，接着事务处理，最后提交或者回滚，如果使用了BeginTransaaction之后并没有提交，则数据库中并不会更新。
+44. 使用``` MySqlTransaction tran = conn.BeginTransaction();```之后就开始事务了，然后为```SqlCommand```对象设置```Transaction```对象，接着事务处理，最后提交或者回滚，如果使用了```BeginTransaaction```之后并没有提交，则数据库中并不会更新。```MySqlTransaction```对象是针对连接的，而不是针对SQL命令的，所以即使不写```comm.Transaction = tran```，只要最后有```tran.Commit();```还是会对数据库进行更新
 
