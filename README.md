@@ -440,3 +440,7 @@
 
 45. ```IEnumerable```适用于只遍历集合的时候，它只能以只读的方式访问集合，不能用于修改，它只有一个```GetEnumerator```方法用于返回一个迭代器。```ICollection```继承了```IEnumerable```接口，同时拥有三个属性和一个方法，```Count```：获取```ICollection```中包含的元素数，```IsSynchronized```：获取一个值，该值指示是否同步对```ICollection```的访问（线程安全）。```SyncRoot```：获取一个对象，该对象可用于同步对```ICollection```的访问，```CopyTo(Array, Int32)```：从特定的```Array```索引开始，将```ICollection```的元素复制到```Array```。```IList```则继承了```ICollection、IEnumerable```接口，并新增了更多的属性和方法，可以对集合进行增删等操作。
 
+46. 在```Unity```中使用```Camera.main```时，应当注意是否有摄像机的```Tag```标签为```MainCamera```，否则会报空指针异常，当然也可以使用```GameObject.Find(摄像机名称)```来获取摄像机再继续使用。
+
+47. ```Input.GetMouseButtonDown```在用户按下给定鼠标按钮的帧期间返回```true```。需要从```Update```函数调用此函数，**因为每个帧都会重置状态。**在用户释放鼠标按钮并再次按下鼠标按钮之前，它不会返回```true```。 主按钮（通常是左按钮）的*按钮*值为0，辅助按钮的按钮值为1，中间按钮的*按钮*值为2。
+
