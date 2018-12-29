@@ -438,3 +438,5 @@
 
 44. 使用``` MySqlTransaction tran = conn.BeginTransaction();```之后就开始事务了，然后为```SqlCommand```对象设置```Transaction```对象，接着事务处理，最后提交或者回滚，如果使用了```BeginTransaaction```之后并没有提交，则数据库中并不会更新。```MySqlTransaction```对象是针对连接的，而不是针对SQL命令的，所以即使不写```comm.Transaction = tran```，只要最后有```tran.Commit();```还是会对数据库进行更新
 
+45. ```IEnumerable```适用于只遍历集合的时候，它只能以只读的方式访问集合，不能用于修改，它只有一个```GetEnumerator```方法用于返回一个迭代器。```ICollection```继承了```IEnumerable```接口，同时拥有三个属性和一个方法，```Count```：获取```ICollection```中包含的元素数，```IsSynchronized```：获取一个值，该值指示是否同步对```ICollection```的访问（线程安全）。```SyncRoot```：获取一个对象，该对象可用于同步对```ICollection```的访问，```CopyTo(Array, Int32)```：从特定的```Array```索引开始，将```ICollection```的元素复制到```Array```。```IList```则继承了```ICollection、IEnumerable```接口，并新增了更多的属性和方法，可以对集合进行增删等操作。
+
