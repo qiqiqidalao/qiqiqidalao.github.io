@@ -445,3 +445,31 @@
 47. ```Input.GetMouseButtonDown```在用户按下给定鼠标按钮的帧期间返回```true```。需要从```Update```函数调用此函数，**因为每个帧都会重置状态。**在用户释放鼠标按钮并再次按下鼠标按钮之前，它不会返回```true```。 主按钮（通常是左按钮）的*按钮*值为0，辅助按钮的按钮值为1，中间按钮的*按钮*值为2。
 
 48. 在老版本的Unity中(4.X或者5.X)中，```foreach```会发生装箱拆箱操作，但是在新的版本中，Unity已经优化了，不会发生装箱拆箱，但是依然有```GC alloc```的操作(即产生了```GC```)。
+
+49. Serialize的功能：可以将成员变量在Inspector面板中显示，并且定义Serialize关系，简单的说，在Inspector面板中可见的值都会被保存成二进制文件。
+
+50. ```[SerializeField]```这个特性会强制Unity序列化**私有字段**并在Inspector面板中显示，可序列化的类型：
+
+    - 所有继承自```UnityEngine.Object```的类，例如```GameObject，Component，MonoBehaviour，Texture2D，AnimationClip```
+    - 所有基本数据类型，如```int，string，float，bool```
+    - 一些内置类型，如```Vector2，Vector3，Vector4，Quaternion，Matrix4x4，Color，Rect，LayerMask```
+    - 可序列化类型的数组
+    - 可序列化类型的列表
+    - 枚举
+    - 结构
+
+51. ```[Serializable]```这个特性允许在Inspector面板中显示**自定义的类或结构**，需要在声明类的时候声明特性，然后声明类型变量的时候才会在Inspector面板中显示：
+
+    ```c#
+    [Serializable]
+    public class Type2
+    {
+    	public int p = 5;
+    	public Color c = Color.white;
+    }
+    
+    public Type2 myType2;
+    ```
+
+52. 
+
