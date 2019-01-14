@@ -471,7 +471,7 @@
     public Type2 myType2;
     ```
 
-52.   ```EditorGUILayout.TextField```和```EditorGUILayout.TextArea```的区别：```TextField```创建一个单行文本字段，用户可以在其中编辑字符串。而```TextArea```创建一个多行文本字段，用户可以在其中编辑字符串。即```TextArea```中可以换行输入，但是注意换行输入的字符串```TextField```只能显示第一行。
+52. ```EditorGUILayout.TextField```和```EditorGUILayout.TextArea```的区别：```TextField```创建一个单行文本字段，用户可以在其中编辑字符串。而```TextArea```创建一个多行文本字段，用户可以在其中编辑字符串。即```TextArea```中可以换行输入，但是注意换行输入的字符串```TextField```只能显示第一行。
 
     ![](https://raw.githubusercontent.com/qiqiqidalao/qiqiqidalao.github.io/master/images/img9.png)
 
