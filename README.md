@@ -477,4 +477,19 @@
 
     ![](https://raw.githubusercontent.com/qiqiqidalao/qiqiqidalao.github.io/master/images/img10.png)
 
-53. 
+53. ```transform.forward```与```Vector3.forward```的不同：```transform.forward```操作```GameObject```在**世界空间**中变换的Z轴上的位置，而```Vector3.forward```就是```Vector3(0, 0, 1)```的简写(一般用于**自身坐标系**)，所以在控制角色往前移动时可以用两种方式:
+
+    ```C#
+    //Translate第二个参数不指定，则默认为Space.Self
+    transform.Translate(Vector3.forward * speed * Time.deltaTime);
+    
+    transform.Translate(transform.forward * speed * Time.deltaTime, Space.World);
+    
+    transform.Translate(transform.rotation * Vector3.forward * speed * Time.deltaTime, Space.World);
+    ```
+
+    ```transform.rotation * Vector3.forward  ==  transform.forward```
+
+    一个四元数乘以一个方向向量的意思是将这个方向向量旋转这个旋转(指四元数代表的旋转)
+
+    注意：四元数和向量相乘一定是左乘(即四元数必选在左侧)
