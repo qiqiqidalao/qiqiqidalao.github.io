@@ -495,3 +495,24 @@
     注意：四元数和向量相乘一定是左乘(即四元数必选在左侧)
 
 54. 如果Unity打开C# Project时，在VS中无法打开项目属性面板，解决办法是在工具->选项->适用于Unity的工具->常规->杂项->访问项目属性设置为True，重启VS，Unity即可
+
+55. Unity场景中的物体在未激活状态时，除了占用点内存外不会有其他开销
+
+56. 在Unity中```GUIClip.visibleRect```中的访问由于版本不同的问题有不同的访问方式
+
+    ```C#
+    var tyGUIClip = Type.GetType("UnityEngine.GUIClip,UnityEngine");
+    if (tyGUIClip != null) {
+    	//Unity2018.2版本之前的访问方式
+    	var piVisibleRect = tyGUIClip.GetProperty("visibleRect", BindingFlags.Static | BindingFlags.Public);
+    	if (piVisibleRect != null)
+    		VisibleRect = (Func<Rect>)Delegate.CreateDelegate(typeof(Func<Rect>), piVisibleRect.GetGetMethod());
+    	//Unity2018.2版本之后的访问方式
+    	var piVisibleRect = tyGUIClip.GetProperty("visibleRect", BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic);
+    	if (piVisibleRect != null) {
+    		var getMethod = piVisibleRect.GetGetMethod(true) ?? piVisibleRect.GetGetMethod(false);
+    		VisibleRect = (Func<Rect>)Delegate.CreateDelegate(typeof(Func<Rect>), getMethod);
+    	}
+    }
+    ```
+
