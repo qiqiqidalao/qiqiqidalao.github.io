@@ -518,3 +518,40 @@
 
 57. 在Unity中使用```Camera.main```的时候出现空指针异常时，可能是因为场景中的摄像机没有设置Tag为```MainCamera```造成的
 
+58. 在windows下```\r\n```与```\n```效果是一样的，都是换行的作用，但是可能在别的平台下效果不同(可能是```\n```只会换到下一行但是不是到行首？猜测)，建议换行都使用```\r\n```或者C#中可以用```Environment.NewLine```
+
+59. ```AssetDatabase.FindAssets(string filter, string[] searchInFolders);```
+
+    第一个参数可以提供名称，标签或者类型(类名)，标签可以使用"l:"或者"t:"，如
+
+    ```C#
+    //查找所有类型为prefab的资源 t是Project面板中搜索栏右边的第一个按钮
+    string[] guids = AssetDatabase.FindAssets("t:Prefab", new string[] { SoldierPrefabPath });
+    //查找所有标签为label为architecture的资源 l是Project面板中搜索栏右边的第二个按钮
+    string[] guids = AssetDatabase.FindAssets("l:architecture", new string[] { SoldierPrefabPath });
+    ```
+
+60. 在使用```NGUI```时判断鼠标是否在```UI```界面上使用```UICamer.isOverUI```
+
+61. Unity中的```Cursor.SetCursor(cursorTexture,hotSpot,cursorMode)```可以设置鼠标的纹理(即外观)，第一个参数是```Texture2D```类型，表示纹理。第二个参数是```Vector2```类型，表示纹理左上角的偏移量用作目标点（必须在光标范围内）换句话说就是鼠标中心在贴图上的偏移量，以左上角为准，例如一个圆形的贴图该属性为```Vector2(0.5, 0.5)```则鼠标中心在贴图的中心，第三个参数是```CursorMode```表示允许此光标在支持的平台上呈现为硬件光标，或强制使用软件光标，一般指定为```CursorMode.Auto```
+
+62. Unity连接Android真机进行测试时，需要在控制台进入```C:\Users\用户\AppData\Local\Android\Sdk\platform-tools```文件夹下，输入```adb forward tcp:54999 localabstract:unity工程名称（是PlayerSettings下的Product Name）```
+
+63. 在Unity中编写脚本时，一些暴露在外部的变量名可以加上```[Tooltip("提示文字")]```的特性，使其在Inspector窗口鼠标悬停对应变量时提示提示信息
+
+64. 获取```GameObject```的```Tag```时，不要用```tag```属性，而要用```CompareTag```方法，因为使用```tag```属性会产生一次```GC```，实质上是拷贝了一份字符串
+
+65. 筛选法求某一范围的质数
+
+    ```C#
+    int N = 100;
+    byte a[] = new byte[N + 1];
+    for(int i = 2; i <= sqrt(N); i++){//从2开始到开方(N)
+        if(a[i] == 1) continue;//跳过和数
+        
+        for(int k = i; k <= N/i; i++){
+            if(k * i <=N) a[k * i] = 1;//置其倍数位为1，为和数位
+        }
+    }
+    ```
+
