@@ -555,3 +555,14 @@
     }
     ```
 
+66. 使用cmd打开Unity工程并选择目标平台:
+
+    ```C#
+    //进入Unity.exe所在的目录
+    Unity.exe -ProjectPath "工程的目录" BuildTarget 目标平台
+    例如：Unity.exe -ProjectPath "F:\_SH\wly2\-Trunk\wly2_publish" BuildTarget Android
+    ```
+
+67. Unity中脚本的生命周期函数中 Awake 和 Start函数都只执行一次，OnEnable可以多次执行，当在Inspector界面勾选掉脚本的时候 调用OnDisable，当在Inspector界面删除脚本时，调用OnDestroy函数，当重新勾选脚本的时候将再次调用OnEnable函数。写脚本的时候注意将代码对应放在对应函数中。
+
+68. ```MeshFilter.mesh```和```MeshFilter.sharedMesh```的区别在于：```sharedMesh```是公用的，类似引用传递，如果```sharedMesh```改变，则所有的使用到此mesh的都将改变，而mesh类似值传递，各自拥有各自的实例，改变mesh将不会影响其它对象的mesh。
