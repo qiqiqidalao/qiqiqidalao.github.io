@@ -1,6 +1,6 @@
 # 随笔
 
-1. 使用NDK-Build 重构.so库时，需要安装android studio的ndk-build工具，安装后配置环境变量，新建一个安卓项目，在Project模式下的main文件夹下右键创建jniFolder(Android Studio有创建该文件夹的选项)，创建完后需要将对应的源文件以及Android.mk、Application.mk拷贝至Jni下，使用cmd进入该工程的main目录下，输入ndk-build即可
+1. 使用NDK-Build 重构.so库时，需要安装android studio的ndk-build工具，安装后配置环境变量，新建一个安卓项目，在Project模式下的main文件夹下右键创建jniFolder(Android Studio有创建该文件夹的选项)，创建完后需要将对应的源文件以及Android.mk、Application.mk拷贝至Jni下，使用cmd进入该工程的main目录下，输入ndk-build即可，Android.mk、Application.mk如何编写可以百度
 2. 开发联机游戏做测试时，需要考虑网段问题，有时候安卓连不上服务器，可能是不在同一网段下，也可能是Unity使用的非托管类库(即C++类库)，如果用的C++类库(Unity Inspector界面显示的Type为Native)则需要用源码重新构建成.so文件导入到Plugins对应目录下
 3. 找某个框架的时候要考虑其平台兼容性，看框架支持哪些平台，以防做到后面发现平台不支持，就可能涉及换库或者替换新的工程。
 4. 阅读代码的时候 需要弄清楚自己是哪一层，做业务逻辑就不要专注于比较底层的东西，如网络层，知道输入输出在哪一块，哪里发送数据，哪里接收数据，数据的类型。还要学会判断没有用的代码。
