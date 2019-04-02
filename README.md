@@ -4,7 +4,7 @@
 
    方法一：
 
-   ![](https://raw.githubusercontent.com/qiqiqidalao/qiqiqidalao.github.io/master/images/img11.png)
+   ![](https://raw.githubusercontent.com/qiqiqidalao/qiqiqidalao.github.io/master/images/11.png)
 
    给定入射光线向量I和平面法向量N，求反射向量R，如上图。为了方便计算，可以假定I和N都是单位向量（模为1，编程时可先将I和N单位化）
 
