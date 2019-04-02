@@ -1,6 +1,33 @@
 # 随笔
 
-1. 如何通过入射方向向量和法线向量计算获得反射角方向向量：
+1. 向量投影：
+
+   给定一个向量u和v，求u在v上的投影向量，如下图。
+
+   ![img](https://raw.githubusercontent.com/qiqiqidalao/qiqiqidalao.github.io/master/images/13.jpg)
+
+   假设u在v上的投影向量是u’，且向量u和v的夹角为theta。一个向量有两个属性，大小和方向，我们先确定u’的大小（即长度，或者模），从u的末端做v的垂线，那么d就是u’的长度。而u’和v的方向是相同的，v的方向v/|v|也就是u’的方向。所以有
+   $$
+   u' = d * \frac{v}{\left | v \right |}
+   $$
+   再求d的长度
+   $$
+   d = \left | u \right | * cos \theta
+   $$
+
+   $$
+   cos \theta = \frac{u*v}{\left | u \right |*\left | v \right |}
+   $$
+   联立解得投影向量为
+   $$
+   u' = \frac{u*v}{\left | v \right | ^2} *v
+   $$
+   该向量的模为
+   $$
+   \left | u' \right | = \left | u \right | * cos \theta = \frac{u*v}{\left | v \right |}
+   $$
+
+2. 如何通过入射方向向量和法线向量计算获得反射角方向向量：
 
    方法一：
 
@@ -63,29 +90,29 @@
    R = I - 2*(I*N)*N
    $$
 
-2. 使用NDK-Build 重构.so库时，需要安装android studio的ndk-build工具，安装后配置环境变量，新建一个安卓项目，在Project模式下的main文件夹下右键创建jniFolder(Android Studio有创建该文件夹的选项)，创建完后需要将对应的源文件以及Android.mk、Application.mk拷贝至Jni下，使用cmd进入该工程的main目录下，输入ndk-build即可，Android.mk、Application.mk如何编写可以百度
+3. 使用NDK-Build 重构.so库时，需要安装android studio的ndk-build工具，安装后配置环境变量，新建一个安卓项目，在Project模式下的main文件夹下右键创建jniFolder(Android Studio有创建该文件夹的选项)，创建完后需要将对应的源文件以及Android.mk、Application.mk拷贝至Jni下，使用cmd进入该工程的main目录下，输入ndk-build即可，Android.mk、Application.mk如何编写可以百度
 
-3. 开发联机游戏做测试时，需要考虑网段问题，有时候安卓连不上服务器，可能是不在同一网段下，也可能是Unity使用的非托管类库(即C++类库)，如果用的C++类库(Unity Inspector界面显示的Type为Native)则需要用源码重新构建成.so文件导入到Plugins对应目录下
+4. 开发联机游戏做测试时，需要考虑网段问题，有时候安卓连不上服务器，可能是不在同一网段下，也可能是Unity使用的非托管类库(即C++类库)，如果用的C++类库(Unity Inspector界面显示的Type为Native)则需要用源码重新构建成.so文件导入到Plugins对应目录下
 
-4. 找某个框架的时候要考虑其平台兼容性，看框架支持哪些平台，以防做到后面发现平台不支持，就可能涉及换库或者替换新的工程。
+5. 找某个框架的时候要考虑其平台兼容性，看框架支持哪些平台，以防做到后面发现平台不支持，就可能涉及换库或者替换新的工程。
 
-5. 阅读代码的时候 需要弄清楚自己是哪一层，做业务逻辑就不要专注于比较底层的东西，如网络层，知道输入输出在哪一块，哪里发送数据，哪里接收数据，数据的类型。还要学会判断没有用的代码。
+6. 阅读代码的时候 需要弄清楚自己是哪一层，做业务逻辑就不要专注于比较底层的东西，如网络层，知道输入输出在哪一块，哪里发送数据，哪里接收数据，数据的类型。还要学会判断没有用的代码。
 
-6. 如果一个移动的游戏对象不具有刚体组件，那么游戏对象的碰撞器就不会随游戏对象移动，而具有刚体组件的游戏对象在移动时，它本身以及它的所有子对象的碰撞器将逐帧更新
+7. 如果一个移动的游戏对象不具有刚体组件，那么游戏对象的碰撞器就不会随游戏对象移动，而具有刚体组件的游戏对象在移动时，它本身以及它的所有子对象的碰撞器将逐帧更新
 
-7. 在C#中，一个属性访问它就会运行其中的get{}语句
+8. 在C#中，一个属性访问它就会运行其中的get{}语句
 
-8. 冻结了刚体组件的旋转，但如果isKinematic设置为true，仍然可以手动设置刚体的旋转角度(isKinematic=true表示刚体会被物理系统跟踪，但由于Rigibody.velocity的关系，它不会自动移动）如果启用了isKinematic，则力，碰撞或关节将不再影响刚体，但是可以影响到其他的非运动刚体。
+9. 冻结了刚体组件的旋转，但如果isKinematic设置为true，仍然可以手动设置刚体的旋转角度(isKinematic=true表示刚体会被物理系统跟踪，但由于Rigibody.velocity的关系，它不会自动移动）如果启用了isKinematic，则力，碰撞或关节将不再影响刚体，但是可以影响到其他的非运动刚体。
 
-9. Unity中的父类和子类:子类继承父类后 如果需要父类的Update方法则要把自己的Update()方法删掉，否则会执行自己的Update()函数，private 修饰的父类Update()方法子类依然可以调用
+10. Unity中的父类和子类:子类继承父类后 如果需要父类的Update方法则要把自己的Update()方法删掉，否则会执行自己的Update()函数，private 修饰的父类Update()方法子类依然可以调用
 
-10. InvokeRepeating()是Unity内置的一个函数，用于对同一函数进行重复调用。函数第一个参数是一个字符串，表示要调用的函数名称，第二个参数设置首次调用该函数的时间间隔，最后一个参数是之后调用该函数的时间间隔。
+11. InvokeRepeating()是Unity内置的一个函数，用于对同一函数进行重复调用。函数第一个参数是一个字符串，表示要调用的函数名称，第二个参数设置首次调用该函数的时间间隔，最后一个参数是之后调用该函数的时间间隔。
 
-11. 球状碰撞器的直径将取变换组件中三个维度的最大值
+12. 球状碰撞器的直径将取变换组件中三个维度的最大值
 
-12. 当一个维度的长度远大于其他维度时，也可以使用胶囊状碰撞器。网格碰撞器可以与物体轮廓相吻合，但运行速度比其他碰撞器要慢很多。在高性能计算机上这可能不是什么问题，但在IOS或Android等移动平台上，网格碰撞器的速度通常会很慢。
+13. 当一个维度的长度远大于其他维度时，也可以使用胶囊状碰撞器。网格碰撞器可以与物体轮廓相吻合，但运行速度比其他碰撞器要慢很多。在高性能计算机上这可能不是什么问题，但在IOS或Android等移动平台上，网格碰撞器的速度通常会很慢。
 
-13. 当在Unity中导入一个dll文件时报错时，在项目面板中点击dll文件可以看到报错信息，可能是支持的.NET版本不同。在Unity中的File->Build Settings->Player Settings->Other Settings中的Configuration下的Scripting Runtime Version中修改成.NET 4.x 即可。当然也可以在VS中修改类库的.NET版本，在右键选择属性 -> 应用程序，将目标框架改为 .NET Framework 3.5或以下，然后重新生成dll导入。
+14. 当在Unity中导入一个dll文件时报错时，在项目面板中点击dll文件可以看到报错信息，可能是支持的.NET版本不同。在Unity中的File->Build Settings->Player Settings->Other Settings中的Configuration下的Scripting Runtime Version中修改成.NET 4.x 即可。当然也可以在VS中修改类库的.NET版本，在右键选择属性 -> 应用程序，将目标框架改为 .NET Framework 3.5或以下，然后重新生成dll导入。
 
    ![Unity中修改](https://raw.githubusercontent.com/qiqiqidalao/qiqiqidalao.github.io/master/images/img1.png)
 
