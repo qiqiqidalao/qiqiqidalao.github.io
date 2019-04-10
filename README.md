@@ -1,6 +1,22 @@
 # 随笔
 
-1. 向量投影：
+1. SVN CleanUp失败并提示如下错误信息![img](https://raw.githubusercontent.com/qiqiqidalao/qiqiqidalao.github.io/master/images/14.png)
+
+   解决办法： 
+
+   - 删除整个项目文件，重新下载
+   - 修复报错项目文件的database
+     1. 显示项目隐藏文件夹.svn
+     2. 下载sqlite.exe工具[Sqlite](https://www.sqlite.org/download.html)
+     3. 配置sqlite环境变量
+     4. 执行```sqlite3 .svn/wc.db "select * from work_queue"```查看出错信息
+     5. 删除错误文件表```sqlite3 .svn/wc.db "delete from work_queue"```
+     6. 如果报错数据库被锁——```database is locked```则执行```sqlite3 .svn/wc.db "delete from wc_lock"```删除被锁信息
+     7. 回到项目还原、CleanUp
+
+2. 在Unity中的BuildSetting中出现adb.exe报错的问题时，需要检查任务管理器中后台进程是否有进程占用端口，一般是360或者鲁大师的手机连接模块占用。
+
+3. 向量投影：
 
    给定一个向量u和v，求u在v上的投影向量，如下图。
 
@@ -27,7 +43,7 @@
    \left | u' \right | = \left | u \right | * cos \theta = \frac{u*v}{\left | v \right |}
    $$
 
-2. 如何通过入射方向向量和法线向量计算获得反射角方向向量：
+4. 如何通过入射方向向量和法线向量计算获得反射角方向向量：
 
    方法一：
 
@@ -49,22 +65,23 @@
    $$
 
 
+
    如果N是单位向量，简化一下得到
-   $$
+$$
    S = -(I * N) * N
-   $$
+$$
    将S代入公式（2），再将P代入公式（1）得到
-   $$
+$$
    R = I - 2*(I*N)*N
-   $$
+$$
    如果N不是单位向量，则
-   $$
+$$
    P = I - \frac{I * N}{\left | N \right |^2} * N
-   $$
+$$
    得R为
-   $$
+$$
    R = 2 * (I - \frac{I * N}{\left | N \right |^2} * N) - I
-   $$
+$$
    方法二：
 
    ![](https://raw.githubusercontent.com/qiqiqidalao/qiqiqidalao.github.io/master/images/12.jpg)
@@ -78,17 +95,17 @@
    R = I + 2S
 
    而S是-I在N上的投影，所以有
-   $$
+$$
    S = -\frac{I * N}{\left | N \right |^2} * N
-   $$
+$$
    如果N是单位向量，简化一下得到
-   $$
+$$
    S = -(I * N) * N
-   $$
+$$
    将S代入公式（2），再将P代入公式（1）得到
-   $$
+$$
    R = I - 2*(I*N)*N
-   $$
+$$
 
 3. 使用NDK-Build 重构.so库时，需要安装android studio的ndk-build工具，安装后配置环境变量，新建一个安卓项目，在Project模式下的main文件夹下右键创建jniFolder(Android Studio有创建该文件夹的选项)，创建完后需要将对应的源文件以及Android.mk、Application.mk拷贝至Jni下，使用cmd进入该工程的main目录下，输入ndk-build即可，Android.mk、Application.mk如何编写可以百度
 
