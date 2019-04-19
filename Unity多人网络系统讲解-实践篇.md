@@ -16,6 +16,8 @@ NetworkBehaviour有一个OnStartLocalPlayer()函数，这个函数只会被本�
 
 ![](https://raw.githubusercontent.com/qiqiqidalao/qiqiqidalao.github.io/master/images/15.png)
 
+还可以使用ClientRPC特性，ClientRPC修饰的函数将在服务器上调用，在客户端上执行，与Command相反。且ClientRPC修饰的函数需要以Rpc开头
+
 Input.GetAxis("Horizontal") * Time.deltaTime * 150.0f (这里的150.0f相当于角速度，因为获取的是水平方向)
 
 Input.GetAxis("Vertical") * Time.deltaTime * 3.0f (这里的3.0f相当于前进速度，因为获取的是垂直方向)
