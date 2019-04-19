@@ -12,6 +12,10 @@ NetworkBehaviour有一个OnStartLocalPlayer()函数，这个函数只会被本�
 
 通过调用NetworkServer.Spawn(需要生成的对象)，可以在每个客户端生成这个对象，并且这个对象由服务器管理，这个对象销毁，则所有的客户端也会销毁这个对象，即由服务器同步这个对象。
 
+使用这种Untiy自带的网络组件时，要网络同步某个属性的时候，需要使用SyncVar特性，并且需要使用hook绑定一个函数，且这个函数需要有和修饰的属性同类型的形参
+
+![](https://raw.githubusercontent.com/qiqiqidalao/qiqiqidalao.github.io/master/images/15.png)
+
 Input.GetAxis("Horizontal") * Time.deltaTime * 150.0f (这里的150.0f相当于角速度，因为获取的是水平方向)
 
 Input.GetAxis("Vertical") * Time.deltaTime * 3.0f (这里的3.0f相当于前进速度，因为获取的是垂直方向)
