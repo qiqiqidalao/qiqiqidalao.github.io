@@ -1,24 +1,28 @@
 # 随笔
 
-1. Input.GetKey表示当某个键处于按下状态时返回true(**不一定在Update中调用此函数？具体应用场景？**)。
+1. 将画布中的渲染模式从Screen Space - Overlay改为Screen Space - Camera，然后放入特效，并将特效的Renderer面板中的Order in Layer设置成和Canvas的Sort Layer相同，则可以通过改变特效的Z轴来控制它的显示
+
+2. 客户端是服务端的一种细化和补充，服务端没必要一定依赖于客户端的表现，比如滚球大战中的重生和眩晕，在服务端可以都是Stun状态，只不过用一个倒计时去区分，当倒计时结束时，变可以广播:玩家可以起来，进入重生状态
+
+3. Input.GetKey表示当某个键处于按下状态时返回true(**不一定在Update中调用此函数？具体应用场景？**)。
 
    Input.GetKeyDown表示在用户按下某个键的帧期间返回true，需要在Update()函数中调用此函数，因为每个帧都会重置状态。在用户释放该键并再次按下该键之前，它不会返回true。
 
    Input.GetKeyUp表示在用户释放某个键的帧期间返回true，需要在Update()函数中调用此函数，因为每个帧都会重置状态。在用户按下该键并再次释放该键之前，它不会返回true。
 
-2. 实例化Rect类时(new Rect(0, 0, 100, 50))的意思是矩形的x坐标为0，y坐标为0，x的宽度为100，y的高度为50。
+4. 实例化Rect类时(new Rect(0, 0, 100, 50))的意思是矩形的x坐标为0，y坐标为0，x的宽度为100，y的高度为50。
 
-3. 字段一般是在类的内部使用，属性则一般是在类的外部访问。按照类的设计原则，字段都是private的，只能在类的内部使用，如果是public的，那么外部类谁都有可能访问，对字段进行破坏性的修改，这是我们不希望看到的，所以字段一定是private的。属性想当于是给字段加了一个保护套，如果想读这个字段的值，属性里面走的一定是get{}，如果想给字段赋值，属性里一定走的是set{}，那么程序员可以在get{}和set{}中增加一些限制，验证要赋值的内容，或者让某个字段只能读不能赋值（对应该字段的的属性只让它有get{}，不写set{}）。对于外部使用者来说只能够使用它，不能控制它，如何控制操作是由类自身决定的
+5. 字段一般是在类的内部使用，属性则一般是在类的外部访问。按照类的设计原则，字段都是private的，只能在类的内部使用，如果是public的，那么外部类谁都有可能访问，对字段进行破坏性的修改，这是我们不希望看到的，所以字段一定是private的。属性想当于是给字段加了一个保护套，如果想读这个字段的值，属性里面走的一定是get{}，如果想给字段赋值，属性里一定走的是set{}，那么程序员可以在get{}和set{}中增加一些限制，验证要赋值的内容，或者让某个字段只能读不能赋值（对应该字段的的属性只让它有get{}，不写set{}）。对于外部使用者来说只能够使用它，不能控制它，如何控制操作是由类自身决定的
 
-4. 腾讯云配置服务器时，除了要指定安全组以外，服务器中的防火墙还要指定入站、出站规则
+6. 腾讯云配置服务器时，除了要指定安全组以外，服务器中的防火墙还要指定入站、出站规则
 
-5. 上传文件至腾讯云时，直接像正常的复制粘贴就行了，没有那么多花里胡哨的
+7. 上传文件至腾讯云时，直接像正常的复制粘贴就行了，没有那么多花里胡哨的
 
-6. Android设置横屏：Player Setting > Orientation > Default Orientation设置横屏或者竖屏
+8. Android设置横屏：Player Setting > Orientation > Default Orientation设置横屏或者竖屏
 
-7. Android连接服务器时，需要设置Player Setting中的Other Setting > Configuration 的Internet Access选择为Require(默认为Auto，会连接失败)
+9. Android连接服务器时，需要设置Player Setting中的Other Setting > Configuration 的Internet Access选择为Require(默认为Auto，会连接失败)
 
-8. SVN CleanUp失败并提示如下错误信息![img](https://raw.githubusercontent.com/qiqiqidalao/qiqiqidalao.github.io/master/images/14.png)
+10. SVN CleanUp失败并提示如下错误信息![img](https://raw.githubusercontent.com/qiqiqidalao/qiqiqidalao.github.io/master/images/14.png)
 
    解决办法： 
 
@@ -32,9 +36,9 @@
      6. 如果报错数据库被锁——```database is locked```则执行```sqlite3 .svn/wc.db "delete from wc_lock"```删除被锁信息
      7. 回到项目还原、CleanUp
 
-9. 在Unity中的BuildSetting中出现adb.exe报错的问题时，需要检查任务管理器中后台进程是否有进程占用端口，一般是360或者鲁大师的手机连接模块占用。
+11. 在Unity中的BuildSetting中出现adb.exe报错的问题时，需要检查任务管理器中后台进程是否有进程占用端口，一般是360或者鲁大师的手机连接模块占用。
 
-10. 向量投影：
+12. 向量投影：
 
    给定一个向量u和v，求u在v上的投影向量，如下图。
 
@@ -79,14 +83,8 @@ $$
 
    现在问题变成了如何求取向量S，向量S即向量-N（注意，这里是-N，因为S和N的方向相反。）在向量N上的投影，根据[向量的投影](http://www.cnblogs.com/graphics/archive/2010/08/03/1791626.html)公式有
 $$
-   S = -\frac{I * N}{\left | N \right |^2} * N
+S = -\frac{I * N}{\left | N \right |^2} * N
 $$
-
-
-
-
-
-
 
    如果N是单位向量，简化一下得到
 $$
