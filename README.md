@@ -2,6 +2,8 @@
 
 1. Unity中自定义Inspector界面时，在Editor编写编辑器脚本，扩展运行时脚本需要使用CustomEditor(typeof(脚本类名))，绘制自定义InspectorUI时需要重写OnInspectorGUI函数，该函数是虚函数。
 
+   ![img](https://raw.githubusercontent.com/qiqiqidalao/qiqiqidalao.github.io/master/images/16.png)
+
 2. 在项目中加载某些资源(特效等)，当这些资源不再被使用时，不要把这些资源删除，而是回收到内存池中，这样就不用每次使用时创建等；也可以在Loading的一些界面进行预加载，提前加载好使用的资源(加载至内存池中)
 
 3. Profiler的Memory面板中，Reserved Total表示Unity预留的内存的容量，Used Total表示当前选中的这一帧所使用的内存量，Unity代表Unity的一些库和代码所占用的内存，Mono代表GC管理或用户动态申请分配的堆内存，GfxDriver代表资源所占的内存(贴图、材质等)，Memory面板还可以从Simple选择成Detail，查看更详细的内存信息。Unity为了避免用户频繁的向系统申请内存，预先会申请一块内存作为内存池，当用户需要申请内存时，直接从内存池中取一块使用，如果用户需要的内存大于内存池，则Unity会向系统申请新的内存扩大内存池。
