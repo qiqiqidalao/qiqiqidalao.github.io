@@ -1,40 +1,80 @@
 # 随笔
 
-1. Unity中自定义Inspector界面时，在Editor编写编辑器脚本，扩展运行时脚本需要使用CustomEditor(typeof(脚本类名))，绘制自定义InspectorUI时需要重写OnInspectorGUI函数，该函数是虚函数。
+1. OnAnimatorMove()用于处理动画移动以修改根运动的回调。此方法允许根据需要应用根运动，这意味着可以单独应用移动和旋转。
+
+   ```C#
+   void OnAnimatorMove()
+   {
+   	m_Rigidbody.MovePosition(m_Rigidbody.position + m_Movement * m_Animator.deltaPosition.magnitude);
+       m_Rigidbody.MoveRotation(m_Rotation);
+   }
+   ```
+
+2. Vector3.RotateTowards(current : Vector3, target : Vector3, maxRadiansDelta : float, maxMagnitudeDelta : float)返回一个Vector3向量，当前矢量将朝目标方向旋转一个角度，且最大角度不会超过maxRadiansDelta，如果当前向量和目标的大小不同，则在旋转期间将对结果的大小进行线性插值
+
+   ```C#
+   float horizontal = Input.GetAxis("Horizontal");
+   float vertical = Input.GetAxis("Vertical");
+   
+   m_Movement = new Vector3(horizontal, 0f, vertical);
+   m_Movement.Normalize();
+   
+   Vector3 desiredForward = Vector3.RotateTowards(transform.forward, m_Movement, turnSpeed * Time.deltaTime, 0f);
+   m_Rotation = Quaternion.LookRotation(desiredForward);
+   
+   m_Rigidbody.MovePosition(m_Rigidbody.position + m_Movement * Time.deltaTime * moveSpeed);
+   m_Rigidbody.MoveRotation(m_Rotation);
+   ```
+
+3. Mathf.Approximately(a : float, b : float) : bool 返回bool类型，比较两个浮点数值，看它们是否非常接近，由于浮点数值不精确，不建议使用等于来比较它们。例如，1.0 == 10.0/10.0 也许不会返回true
+
+   ```C#
+   bool hasHorizontalInput = !Mathf.Approximately (horizontal, 0f);
+   bool hasVerticalInput = !Mathf.Approximately (vertical, 0f);
+   bool isWalking = hasHorizontalInput || hasVerticalInput;
+   ```
+
+4. 依赖注入需要类提供可用于注入依赖的赋值器方法或构造器函数(或二者都有)，在构造过程中，DI(Dependency Injection——依赖注入)容器实体化需要的对象，并使用构造器参数或赋值器方法将依赖连接到一起
+
+5. 类的编写尽量遵守单一职责原则，让代码工作是一方面，但更深的是要考虑全面和设计，保持代码有组织和整洁
+
+6. 类应该从一组变量列表开始，如果有公共静态常量，应该先出现，然后是私有静态变量，以及私有实体变量。公共函数应跟在变量列表之后(某个公共函数调用的私有工具紧跟在该公共函数后面，符合自顶向下的原则，让程序读起来像一篇报纸文章)
+
+7. Unity中自定义Inspector界面时，在Editor编写编辑器脚本，扩展运行时脚本需要使用CustomEditor(typeof(脚本类名))，绘制自定义InspectorUI时需要重写OnInspectorGUI函数，该函数是虚函数。
 
    ![img](https://raw.githubusercontent.com/qiqiqidalao/qiqiqidalao.github.io/master/images/16.png)
 
-2. 在项目中加载某些资源(特效等)，当这些资源不再被使用时，不要把这些资源删除，而是回收到内存池中，这样就不用每次使用时创建等；也可以在Loading的一些界面进行预加载，提前加载好使用的资源(加载至内存池中)
+8. 在项目中加载某些资源(特效等)，当这些资源不再被使用时，不要把这些资源删除，而是回收到内存池中，这样就不用每次使用时创建等；也可以在Loading的一些界面进行预加载，提前加载好使用的资源(加载至内存池中)
 
-3. Profiler的Memory面板中，Reserved Total表示Unity预留的内存的容量，Used Total表示当前选中的这一帧所使用的内存量，Unity代表Unity的一些库和代码所占用的内存，Mono代表GC管理或用户动态申请分配的堆内存，GfxDriver代表资源所占的内存(贴图、材质等)，Memory面板还可以从Simple选择成Detail，查看更详细的内存信息。Unity为了避免用户频繁的向系统申请内存，预先会申请一块内存作为内存池，当用户需要申请内存时，直接从内存池中取一块使用，如果用户需要的内存大于内存池，则Unity会向系统申请新的内存扩大内存池。
+9. Profiler的Memory面板中，Reserved Total表示Unity预留的内存的容量，Used Total表示当前选中的这一帧所使用的内存量，Unity代表Unity的一些库和代码所占用的内存，Mono代表GC管理或用户动态申请分配的堆内存，GfxDriver代表资源所占的内存(贴图、材质等)，Memory面板还可以从Simple选择成Detail，查看更详细的内存信息。Unity为了避免用户频繁的向系统申请内存，预先会申请一块内存作为内存池，当用户需要申请内存时，直接从内存池中取一块使用，如果用户需要的内存大于内存池，则Unity会向系统申请新的内存扩大内存池。
 
-4. 使用ENet作为网络框架时，服务端发送数据包时类型尽量选择Reliable(可靠的)，如果选择为None，则客户端可能会丢包并造成卡顿(因为丢包，一些物体不会消失，最后越积越多)——滚球大战([ENet的github](https://github.com/nxrighthere/ENet-CSharp))
+10. 使用ENet作为网络框架时，服务端发送数据包时类型尽量选择Reliable(可靠的)，如果选择为None，则客户端可能会丢包并造成卡顿(因为丢包，一些物体不会消失，最后越积越多)——滚球大战([ENet的github](https://github.com/nxrighthere/ENet-CSharp))
 
-5. 缩小安卓包体时，可以在ProjectSetting中设置Configuration中的Target Architectures参数，一般不需要编译x86的版本，因此可以去掉x86选项只勾选ARMv7的选项，90MB的包体可以缩减到70MB
+11. 缩小安卓包体时，可以在ProjectSetting中设置Configuration中的Target Architectures参数，一般不需要编译x86的版本，因此可以去掉x86选项只勾选ARMv7的选项，90MB的包体可以缩减到70MB
 
-6. 将画布中的渲染模式从Screen Space - Overlay改为Screen Space - Camera，然后放入特效，并将特效的Renderer面板中的Order in Layer设置成和Canvas的Sort Layer相同，则可以通过改变特效的Z轴来控制它的显示
+12. 将画布中的渲染模式从Screen Space - Overlay改为Screen Space - Camera，然后放入特效，并将特效的Renderer面板中的Order in Layer设置成和Canvas的Sort Layer相同，则可以通过改变特效的Z轴来控制它的显示
 
-7. 客户端是服务端的一种细化和补充，服务端没必要一定依赖于客户端的表现，比如滚球大战中的重生和眩晕，在服务端可以都是Stun状态，只不过用一个倒计时去区分，当倒计时结束时，变可以广播:玩家可以起来，进入重生状态
+13. 客户端是服务端的一种细化和补充，服务端没必要一定依赖于客户端的表现，比如滚球大战中的重生和眩晕，在服务端可以都是Stun状态，只不过用一个倒计时去区分，当倒计时结束时，变可以广播:玩家可以起来，进入重生状态
 
-8. Input.GetKey表示当某个键处于按下状态时返回true(**不一定在Update中调用此函数？具体应用场景？**)。
+14. Input.GetKey表示当某个键处于按下状态时返回true(**不一定在Update中调用此函数？具体应用场景？**)。
 
    Input.GetKeyDown表示在用户按下某个键的帧期间返回true，需要在Update()函数中调用此函数，因为每个帧都会重置状态。在用户释放该键并再次按下该键之前，它不会返回true。
 
    Input.GetKeyUp表示在用户释放某个键的帧期间返回true，需要在Update()函数中调用此函数，因为每个帧都会重置状态。在用户按下该键并再次释放该键之前，它不会返回true。
 
-9. 实例化Rect类时(new Rect(0, 0, 100, 50))的意思是矩形的x坐标为0，y坐标为0，x的宽度为100，y的高度为50。
+11. 实例化Rect类时(new Rect(0, 0, 100, 50))的意思是矩形的x坐标为0，y坐标为0，x的宽度为100，y的高度为50。
 
-10. 字段一般是在类的内部使用，属性则一般是在类的外部访问。按照类的设计原则，字段都是private的，只能在类的内部使用，如果是public的，那么外部类谁都有可能访问，对字段进行破坏性的修改，这是我们不希望看到的，所以字段一定是private的。属性想当于是给字段加了一个保护套，如果想读这个字段的值，属性里面走的一定是get{}，如果想给字段赋值，属性里一定走的是set{}，那么程序员可以在get{}和set{}中增加一些限制，验证要赋值的内容，或者让某个字段只能读不能赋值（对应该字段的的属性只让它有get{}，不写set{}）。对于外部使用者来说只能够使用它，不能控制它，如何控制操作是由类自身决定的
+12. 字段一般是在类的内部使用，属性则一般是在类的外部访问。按照类的设计原则，字段都是private的，只能在类的内部使用，如果是public的，那么外部类谁都有可能访问，对字段进行破坏性的修改，这是我们不希望看到的，所以字段一定是private的。属性想当于是给字段加了一个保护套，如果想读这个字段的值，属性里面走的一定是get{}，如果想给字段赋值，属性里一定走的是set{}，那么程序员可以在get{}和set{}中增加一些限制，验证要赋值的内容，或者让某个字段只能读不能赋值（对应该字段的的属性只让它有get{}，不写set{}）。对于外部使用者来说只能够使用它，不能控制它，如何控制操作是由类自身决定的
 
-11. 腾讯云配置服务器时，除了要指定安全组以外，服务器中的防火墙还要指定入站、出站规则
+13. 腾讯云配置服务器时，除了要指定安全组以外，服务器中的防火墙还要指定入站、出站规则
 
-12. 上传文件至腾讯云时，直接像正常的复制粘贴就行了，没有那么多花里胡哨的
+14. 上传文件至腾讯云时，直接像正常的复制粘贴就行了，没有那么多花里胡哨的
 
-13. Android设置横屏：Player Setting > Orientation > Default Orientation设置横屏或者竖屏
+15. Android设置横屏：Player Setting > Orientation > Default Orientation设置横屏或者竖屏
 
-14. Android连接服务器时，需要设置Player Setting中的Other Setting > Configuration 的Internet Access选择为Require(默认为Auto，会连接失败)
+16. Android连接服务器时，需要设置Player Setting中的Other Setting > Configuration 的Internet Access选择为Require(默认为Auto，会连接失败)
 
-15. SVN CleanUp失败并提示如下错误信息![img](https://raw.githubusercontent.com/qiqiqidalao/qiqiqidalao.github.io/master/images/14.png)
+17. SVN CleanUp失败并提示如下错误信息![img](https://raw.githubusercontent.com/qiqiqidalao/qiqiqidalao.github.io/master/images/14.png)
 
    解决办法： 
 
